@@ -1,13 +1,13 @@
 const express = require('express'); 
 const helmet = require('helmet'); 
 const {logger} = require('./middleware/middleware')
-// const hubsRouter = require('./hubs/hubs-router.js');
+const usersRouter = require('./users/users-router.js');
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet()); 
-// server.use('/api/hubs', logger, hubsRouter);
+server.use('/api/users', logger, usersRouter);
 
 server.get('/', logger, (req, res) => {
   res.send(`
