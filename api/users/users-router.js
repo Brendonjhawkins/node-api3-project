@@ -19,13 +19,15 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', validateUserId, (req, res) => {
-  // RETURN THE USER OBJECT
-  // this needs a middleware to verify user id
+res.json(req.user)
 });
 
-router.post('/', validateUser, (req, res) => {
-  // RETURN THE NEWLY CREATED USER OBJECT
-  // this needs a middleware to check that the request body is valid
+router.post('/', validateUser, (req, res, next) => {
+  User.insert({ name: req.name})
+    .then(newUser => {
+      res.status(201).json(newUser)
+    })
+    .catch(next)
 });
 
 router.put('/:id', validateUserId, validateUser,  (req, res) => {
@@ -34,9 +36,12 @@ router.put('/:id', validateUserId, validateUser,  (req, res) => {
   // and another middleware to check that the request body is valid
 });
 
-router.delete('/:id', validateUserId,  (req, res) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
+router.delete('/:id', validateUserId,  (req, res, next) => {
+  User.remove(req.params.id)
+    .then(() => {
+      res.status(200).json({ message: 'The hub has been nuked' });
+    })
+    .catch(next);
 });
 
 router.get('/:id/posts', validateUserId,  (req, res) => {
