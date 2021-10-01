@@ -1,5 +1,6 @@
 const express = require('express'); 
 const helmet = require('helmet'); 
+const {logger} = require('./middleware/middleware')
 // const hubsRouter = require('./hubs/hubs-router.js');
 
 const server = express();
@@ -23,10 +24,10 @@ server.use(errorHandling)
 
 module.exports = server;
 
-function logger(req, res, next) { 
-  console.log(`it is a ${req.method} request to ${req.originalUrl}`)
-  next() 
-}
+// function logger(req, res, next) { 
+//   console.log(`it is a ${req.method} request to ${req.originalUrl}`)
+//   next() 
+// }
 // eslint-disable-next-line
 function errorHandling(err, req, res, next) { 
   res.status(err.status || 500).json({
